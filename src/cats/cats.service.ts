@@ -22,6 +22,7 @@ export class CatsService {
   }
 
   update(id: number, updateCatDto: UpdateCatDto) {
+    console.log('update cat', updateCatDto);
     return `This action updates a #${id} cat`;
   }
 
