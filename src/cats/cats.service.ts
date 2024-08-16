@@ -10,7 +10,19 @@ export class CatsService {
   }
 
   findAll() {
-    return `This action returns all cats`;
+    const cats = [
+      {
+        name: 'cat',
+        age: 1,
+        breed: 'Persian',
+      },
+      {
+        name: 'cat2',
+        age: 2,
+        breed: 'Persian',
+      },
+    ];
+    return cats;
   }
 
   findBreed(breed: string) {
