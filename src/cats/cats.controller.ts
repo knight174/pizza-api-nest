@@ -11,6 +11,7 @@ import {
   Redirect,
   HttpException,
   HttpStatus,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
@@ -69,10 +70,23 @@ export class CatsController {
     }
   }
 
+  // 查询字符串
+  // @Get()
+  // async findOne(@Query('id', ParseIntPipe) id: number) {
+  //   return this.catsService.findOne(id);
+  // }
+
+  // 动态路由参数 数字id
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.catsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.catsService.findOne(id);
   }
+
+  // 动态路由参数 uuid
+  // @Get(':uuid')
+  // async findOne(@Param('uuid', new ParseUUIDPipe()) uuid: string) {
+  //   return this.catsService.findOne(uuid);
+  // }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCatDto: UpdateCatDto) {
