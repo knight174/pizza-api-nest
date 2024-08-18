@@ -35,7 +35,7 @@ export class PizzasService {
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pizza`;
+  remove(id: string) {
+    return this.prisma.pizza.delete({ where: { id } });
   }
 }
