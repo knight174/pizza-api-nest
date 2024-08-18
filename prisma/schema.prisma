@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String   @id @default(uuid()) @db.Uuid
+  email          String   @unique
+  passwordDigest String
+  name           String   @default("即刻披萨Bot")
+  address        String   @default("东胜神洲/傲来国/花果山福地/水帘洞")
+  phone          String   @default("7758258")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  orders         Order[]
+
+  @@map("users")
+}
+
+model Pizza {
+  id         String      @id @default(uuid()) @db.Uuid
+  name       String
+  price      Decimal     @db.Decimal(precision: 10, scale: 2)
+  discount   Decimal     @db.Decimal(precision: 10, scale: 2)
+  sales      Int
+  size       Int
+  tag        String
+  deletedAt  DateTime?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  src        String      @default("https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?q=80&w=2976&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+  orderItems OrderItem[]
+
+  @@map("pizzas")
+}
+
+model Cart {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String?   @db.Uuid
+  pizzaId   String?   @db.Uuid
+  quantity  Int
+  selected  Boolean   @default(false)
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("carts")
+}
+
+model Order {
+  id           String      @id @default(uuid()) @db.Uuid
+  userId       String      @db.Uuid
+  orderNo      String
+  status       String      @default("pending")
+  totalPrice   Decimal     @db.Decimal(precision: 10, scale: 2)
+  paymentTime  DateTime?
+  deliveryTime DateTime?
+  endTime      DateTime?
+  name         String
+  phone        String
+  address      String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  paymentType  String?
+  orderItems   OrderItem[]
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id         String   @id @default(uuid()) @db.Uuid
+  orderId    String   @db.Uuid
+  pizzaId    String   @db.Uuid
+  pizzaName  String
+  unitPrice  Decimal  @db.Decimal(precision: 10, scale: 2)
+  quantity   Int
+  totalPrice Decimal  @db.Decimal(precision: 10, scale: 2)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  order Order @relation(fields: [orderId], references: [id])
+  pizza Pizza @relation(fields: [pizzaId], references: [id])
+
+  @@map("order_items")
+}
