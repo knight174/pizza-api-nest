@@ -12,12 +12,11 @@ export class PizzasService {
   }
 
   findAll() {
-    // return this.prisma.pizza.findMany({ where: { deletedAt: null } });
     return this.prisma.pizza.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pizza`;
+  findOne(id: string) {
+    return this.prisma.pizza.findUnique({ where: { id } });
   }
 
   update(id: number, updatePizzaDto: UpdatePizzaDto) {

@@ -27,7 +27,7 @@ export class PizzasController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.pizzasService.findOne(+id);
+    return this.pizzasService.findOne(id);
   }
 
   @Patch(':id')
