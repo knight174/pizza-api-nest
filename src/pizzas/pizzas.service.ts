@@ -8,7 +8,7 @@ export class PizzasService {
   constructor(private prisma: PrismaService) {}
 
   create(createPizzaDto: CreatePizzaDto) {
-    return 'This action adds a new pizza';
+    return this.prisma.pizza.create({ data: createPizzaDto });
   }
 
   findAll(kind: string) {
