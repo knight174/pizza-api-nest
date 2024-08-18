@@ -12,7 +12,8 @@ export class PizzasService {
   }
 
   findAll() {
-    return `This action returns all pizzas`;
+    // return this.prisma.pizza.findMany({ where: { deletedAt: null } });
+    return this.prisma.pizza.findMany();
   }
 
   findOne(id: number) {
