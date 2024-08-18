@@ -11,8 +11,17 @@ export class PizzasService {
     return 'This action adds a new pizza';
   }
 
-  findAll() {
-    return this.prisma.pizza.findMany();
+  findAll(kind: string) {
+    // 根据kind参数过滤披萨列表
+    if (kind !== 'all') {
+      return this.prisma.pizza.findMany({
+        where: {
+          tag: kind,
+        },
+      });
+    } else {
+      return this.prisma.pizza.findMany();
+    }
   }
 
   findOne(id: string) {

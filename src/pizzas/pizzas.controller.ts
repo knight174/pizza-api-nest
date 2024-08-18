@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { PizzasService } from './pizzas.service';
 import { CreatePizzaDto } from './dto/create-pizza.dto';
@@ -21,8 +22,9 @@ export class PizzasController {
   }
 
   @Get()
-  findAll() {
-    return this.pizzasService.findAll();
+  async findAll(@Query('kind') kind: string = 'all') {
+    const pizzas = await this.pizzasService.findAll(kind);
+    return pizzas;
   }
 
   @Get(':id')
