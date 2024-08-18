@@ -28,8 +28,11 @@ export class PizzasService {
     return this.prisma.pizza.findUnique({ where: { id } });
   }
 
-  update(id: number, updatePizzaDto: UpdatePizzaDto) {
-    return `This action updates a #${id} pizza`;
+  update(id: string, updatePizzaDto: UpdatePizzaDto) {
+    return this.prisma.pizza.update({
+      where: { id },
+      data: updatePizzaDto,
+    });
   }
 
   remove(id: number) {
