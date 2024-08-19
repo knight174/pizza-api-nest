@@ -14,7 +14,9 @@ import { UpdatePizzaDto } from './dto/update-pizza.dto';
 
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { PizzaEntity } from './entities/pizza.entity';
+import { Public } from 'src/decorators/public.decorator';
 
+@Public()
 @Controller('pizzas')
 @ApiTags('pizzas')
 export class PizzasController {
