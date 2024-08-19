@@ -6,11 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
 } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('cart')
 @Controller('carts')
 export class CartsController {
   constructor(private readonly cartsService: CartsService) {}
@@ -21,8 +24,9 @@ export class CartsController {
   }
 
   @Get()
-  findAll() {
-    return this.cartsService.findAll();
+  async findAll(@Req() req) {
+    const userId = req.user.id; // 假设当前用户信息已经通过中间件获取
+    return await this.cartsService.findAll(userId);
   }
 
   @Get(':id')
