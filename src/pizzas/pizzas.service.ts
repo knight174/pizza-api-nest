@@ -17,15 +17,20 @@ export class PizzasService {
       return this.prisma.pizza.findMany({
         where: {
           tag: kind,
+          deletedAt: null,
         },
       });
     } else {
-      return this.prisma.pizza.findMany();
+      return this.prisma.pizza.findMany({
+        where: {
+          deletedAt: null,
+        },
+      });
     }
   }
 
   findOne(id: string) {
-    return this.prisma.pizza.findUnique({ where: { id } });
+    return this.prisma.pizza.findUnique({ where: { id, deletedAt: null } });
   }
 
   update(id: string, updatePizzaDto: UpdatePizzaDto) {
@@ -36,6 +41,13 @@ export class PizzasService {
   }
 
   remove(id: string) {
-    return this.prisma.pizza.delete({ where: { id } });
+    // return this.prisma.pizza.delete({ where: { id } });
+    // soft delete
+    return this.prisma.pizza.update({
+      where: { id },
+      data: {
+        deletedAt: new Date(),
+      },
+    });
   }
 }
