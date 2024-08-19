@@ -14,11 +14,6 @@ export class UsersService {
     });
   }
 
-  // 登录
-  login() {
-    return 'login';
-  }
-
   // 获取个人信息
   me(email: string) {
     return this.prisma.user.findUnique({

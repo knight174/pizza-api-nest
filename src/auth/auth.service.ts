@@ -47,9 +47,9 @@ export class AuthService {
     // newUser.address = user.address || '东胜神洲/傲来国/花果山福地/水帘洞';
     // newUser.phone = user.phone || '7758258';
 
-    await this.usersService.create(newUser);
+    const saved = await this.usersService.create(newUser);
 
-    return this.login(newUser);
+    return this.login(saved);
   }
   // 获取用户信息
   async getUserInfo(user: UserEntity) {
