@@ -8,15 +8,15 @@ datasource db {
 }
 
 model User {
-  id             String   @id @default(uuid()) @db.Uuid
-  email          String   @unique
-  passwordDigest String
-  name           String   @default("即刻披萨Bot")
-  address        String   @default("东胜神洲/傲来国/花果山福地/水帘洞")
-  phone          String   @default("7758258")
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  orders         Order[]
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String   @unique
+  password  String
+  name      String   @default("即刻披萨Bot")
+  address   String   @default("东胜神洲/傲来国/花果山福地/水帘洞")
+  phone     String   @default("7758258")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
 
   @@map("users")
 }
