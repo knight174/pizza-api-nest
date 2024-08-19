@@ -20,8 +20,19 @@ export class UsersService {
   }
 
   // 获取个人信息
-  me() {
-    return 'me';
+  me(email: string) {
+    return this.prisma.user.findUnique({
+      where: {
+        email,
+      },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        address: true,
+        phone: true,
+      },
+    });
   }
 
   findAll() {

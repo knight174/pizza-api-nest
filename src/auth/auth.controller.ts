@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
   Post,
   Request,
   UseGuards,
@@ -16,6 +17,7 @@ import { RegisterResponseDTO } from './dto/register-response.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 import { Public } from '../decorators/public.decorator';
+import { User } from '@prisma/client';
 
 @Public()
 @Controller('auth')
@@ -37,5 +39,12 @@ export class AuthController {
     @Body() registerBody: RegisterRequestDto,
   ): Promise<RegisterResponseDTO | BadRequestException> {
     return await this.authService.register(registerBody);
+  }
+
+  // 获取用户信息
+  @Get('me')
+  @UseGuards(AuthGuard('jwt')) // 身份验证守卫
+  async getMe(@Request() req) {
+    return await this.authService.getUserInfo(req.user);
   }
 }

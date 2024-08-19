@@ -51,4 +51,9 @@ export class AuthService {
 
     return this.login(newUser);
   }
+  // 获取用户信息
+  async getUserInfo(user: UserEntity) {
+    const email = user.email;
+    return this.usersService.me(email);
+  }
 }
