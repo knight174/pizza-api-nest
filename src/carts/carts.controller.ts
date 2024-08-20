@@ -24,11 +24,6 @@ export class CartsController {
     return this.cartsService.create(id, createCartDto);
   }
 
-  @Post('update_selected_mutiple')
-  updateMultiple(@Body() dto: updateSelectedMultipleDto) {
-    return this.cartsService.updateMultiple(dto.ids, dto.selected);
-  }
-
   @Get()
   async findAll(@User('id') id: string) {
     return await this.cartsService.findAllByUserId(id);
@@ -42,6 +37,12 @@ export class CartsController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCartDto: UpdateCartDto) {
     return this.cartsService.update(id, updateCartDto);
+  }
+
+  // @Patch('selection') // 更符合 RESTful API 设计
+  @Patch('update_selected_mutiple')
+  updateMultiple(@Body() dto: updateSelectedMultipleDto) {
+    return this.cartsService.updateMultiple(dto.ids, dto.selected);
   }
 
   @Delete(':id')
