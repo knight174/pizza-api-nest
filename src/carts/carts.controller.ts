@@ -12,6 +12,7 @@ import { CartsService } from './carts.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { User } from 'src/decorators/user.decorator';
 
 @ApiTags('cart')
 @Controller('carts')
@@ -24,9 +25,8 @@ export class CartsController {
   }
 
   @Get()
-  async findAll(@Req() req) {
-    const userId = req.user.id; // 假设当前用户信息已经通过中间件获取
-    return await this.cartsService.findAll(userId);
+  async findAll(@User('id') id: string) {
+    return await this.cartsService.findAllByUserId(id);
   }
 
   @Get(':id')

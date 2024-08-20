@@ -23,7 +23,7 @@ export class CartsService {
     return 'This action adds a new cart';
   }
 
-  findAll(userId: string) {
+  findAllByUserId(userId: string) {
     return this.prisma.cart.findMany({
       where: {
         userId,
