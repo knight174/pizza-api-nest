@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -7,22 +7,17 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class CartsService {
   constructor(private prisma: PrismaService) {}
 
-  async addToCart(dto: CreateCartDto, userId: string) {
-    // 业务逻辑代码，添加商品到购物车
+  // 创建购物车
+  create(userId: string, createCartDto: CreateCartDto) {
+    return this.prisma.cart.create({
+      data: {
+        userId,
+        ...createCartDto,
+      },
+    });
   }
 
-  async updateCart(cartId: string, updateDto: UpdateCartDto, userId: string) {
-    // 业务逻辑代码，更新购物车商品
-  }
-
-  async deleteCart(cartId: string, userId: string) {
-    // 业务逻辑代码，删除购物车商品
-  }
-
-  create(createCartDto: CreateCartDto) {
-    return 'This action adds a new cart';
-  }
-
+  // 获取用户购物车
   findAllByUserId(userId: string) {
     return this.prisma.cart.findMany({
       where: {
@@ -42,11 +37,22 @@ export class CartsService {
     return `This action returns a #${id} cart`;
   }
 
-  update(id: number, updateCartDto: UpdateCartDto) {
-    return `This action updates a #${id} cart`;
+  // 更新购物车
+  async update(id: string, updateCartDto: UpdateCartDto) {
+    const cart = await this.prisma.cart.findUnique({ where: { id } });
+    if (!cart) throw new NotFoundException('Cart not found');
+
+    return this.prisma.cart.update({
+      where: { id },
+      data: updateCartDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cart`;
+  // 删除购物车
+  async remove(id: string) {
+    const cart = await this.prisma.cart.findUnique({ where: { id } });
+    if (!cart) throw new NotFoundException('Cart not found');
+
+    return this.prisma.cart.delete({ where: { id } });
   }
 }
