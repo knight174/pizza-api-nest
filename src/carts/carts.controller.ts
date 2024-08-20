@@ -12,6 +12,7 @@ import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from 'src/decorators/user.decorator';
+import { updateSelectedMultipleDto } from 'src/carts/dto/update-selected-multiple.dto';
 
 @ApiTags('cart')
 @Controller('carts')
@@ -21,6 +22,11 @@ export class CartsController {
   @Post()
   create(@User('id') id: string, @Body() createCartDto: CreateCartDto) {
     return this.cartsService.create(id, createCartDto);
+  }
+
+  @Post('update_selected_mutiple')
+  updateMultiple(@Body() dto: updateSelectedMultipleDto) {
+    return this.cartsService.updateMultiple(dto.ids, dto.selected);
   }
 
   @Get()
