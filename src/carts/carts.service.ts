@@ -44,7 +44,7 @@ export class CartsService {
         deletedAt: null,
       },
       include: {
-        pizza: true,
+        pizza: true, // 获取关联的pizza信息
       },
       orderBy: {
         createdAt: 'asc',
