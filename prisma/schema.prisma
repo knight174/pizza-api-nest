@@ -53,6 +53,7 @@ model Cart {
   user  User?  @relation(fields: [userId], references: [id])
   pizza Pizza? @relation(fields: [pizzaId], references: [id])
 
+  @@unique([pizzaId, userId])
   @@map("carts")
 }
 
