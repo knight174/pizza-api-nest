@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:14-alpine
+    container_name: db-for-pizza-prod
+    restart: always
+    env_file:
+      - .env.production
+    volumes:
+      - pizza-prod-data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    networks:
+      - my-network
+
+  nest-api:
+    build: .
+    container_name: pizza-api-nest
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env.production
+    depends_on:
+      - db
+    networks:
+      - my-network
+    command: >
+      sh -c "npx prisma migrate deploy && npm run start:prod"
+
+volumes:
+  pizza-prod-data:
+networks:
+  my-network:
