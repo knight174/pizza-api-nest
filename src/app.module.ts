@@ -28,7 +28,11 @@ import { JwtGuard } from './auth/guards/jwt.guard';
     JwtStrategy, // 注册 JwtStrategy，来验证 JWT（与上面的 JwtGuard 相配合）
   ],
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }), // 将配置文件加载到全局
+    ConfigModule.forRoot({
+      cache: true, // 缓存配置文件
+      isGlobal: true, // 将配置文件加载到全局
+      envFilePath: '.env.development.local', // 配置环境变量文件路径
+    }),
     AuthModule,
     UsersModule,
     PizzasModule,
