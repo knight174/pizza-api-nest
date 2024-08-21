@@ -31,7 +31,7 @@ import { JwtGuard } from './auth/guards/jwt.guard';
     ConfigModule.forRoot({
       cache: true, // 缓存配置文件
       isGlobal: true, // 将配置文件加载到全局
-      envFilePath: '.env.development.local', // 配置环境变量文件路径
+      envFilePath: [`.env.${process.env.NODE_ENV}`, '.env'], // 配置环境变量文件路径
     }),
     AuthModule,
     UsersModule,
