@@ -1,39 +1,82 @@
-## Description
+# Pizza API (NestJS)
 
-Pizza API Nest 版本
+[中文文档](./README.zh-CN.md)
 
-## Installation
+A RESTful API for pizza ordering and management, built with [NestJS](https://nestjs.com/).
+
+## Features
+
+- User authentication (JWT)
+- Pizza menu management
+- Order creation and management
+- Environment-based configuration
+- E2E and unit testing
+- Code style and linting with ESLint & Prettier
+
+## Tech Stack
+
+- [NestJS](https://nestjs.com/) (v10)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Prisma ORM](https://www.prisma.io/) (see dependencies)
+- [JWT](https://jwt.io/) for authentication
+- [pnpm](https://pnpm.io/) for package management
+
+## Getting Started
+
+### Installation
 
 ```bash
-$ pnpm install
+pnpm install
 ```
 
-## Running the app
+### Environment Variables
+
+Copy `.env.example` to `.env` and update values as needed.
+
+### Running the App
 
 ```bash
 # development
-$ pnpm run start
+pnpm run start
 
 # watch mode
-$ pnpm run start:dev
+dpnm run start:dev
 
 # production mode
-$ pnpm run start:prod
+pnpm run start:prod
 ```
 
-## Test
+### Testing
 
 ```bash
 # unit tests
-$ pnpm run test
+pnpm run test
 
 # e2e tests
-$ pnpm run test:e2e
+pnpm run test:e2e
 
 # test coverage
-$ pnpm run test:cov
+pnpm run test:cov
 ```
+
+### Linting & Formatting
+
+```bash
+pnpm run lint
+pnpm run format
+```
+
+## Project Structure
+
+- `src/` - Main source code (modules, controllers, services, decorators, etc.)
+- `test/` - Test files
+- `.eslintrc.js` - ESLint configuration
+- `commitlint.config.js` - Commit message linting
+
+## Scripts
+
+See `package.json` for all available scripts.
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+This project is [MIT licensed](LICENSE).
