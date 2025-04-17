@@ -1,10 +1,18 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { VersioningType } from '@nestjs/common';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // 添加 CORS 配置
+  app.enableCors({
+    origin: true, // 允许所有来源，生产环境建议设置具体域名
+    credentials: true, // 允许携带凭证
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
 
   app.enableVersioning({
     type: VersioningType.URI,
