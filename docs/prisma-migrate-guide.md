@@ -23,7 +23,7 @@ model User {
 ## 1. 创建迁移
 
 ```bash
-pnpm prisma migrate dev --name add_user_table
+bun prisma migrate dev --name add_user_table
 ```
 
 - `--name` 迁移名称
@@ -48,19 +48,19 @@ ls prisma/migrations
 ## 3. 验证数据库更新
 
 ```bash
-pnpm prisma studio  # 可视化查看数据库
+bun prisma studio  # 可视化查看数据库
 # 或
-pnpm prisma db pull # 从数据库拉取最新架构
+bun prisma db pull # 从数据库拉取最新架构
 ```
 
 ## 2. 查看迁移状态
 
 ```bash
-pnpm prisma migrate status
+bun prisma migrate status
 ```
 
 ## 3. 查看迁移历史
 
 ```bash
-pnpm prisma migrate history
+bun prisma migrate history
 ```
