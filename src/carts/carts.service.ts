@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CartsService {
@@ -22,6 +22,9 @@ export class CartsService {
       return this.prisma.cart.update({
         where: { id: existingCart.id },
         data: { quantity: { increment: createCartDto.quantity } },
+        include: {
+          pizza: true, // 包含关联的 pizza 数据
+        },
       });
     } else {
       // 创建新购物车项
@@ -31,6 +34,9 @@ export class CartsService {
           quantity: createCartDto.quantity,
           selected: createCartDto.selected ?? true,
           userId: userId,
+        },
+        include: {
+          pizza: true, // 包含关联的 pizza 数据
         },
       });
     }

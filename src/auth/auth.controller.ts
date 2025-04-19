@@ -11,7 +11,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 
 import { ApiTags } from '@nestjs/swagger';
-import { Public } from 'src/decorators/public.decorator';
+import { Public } from 'src/common/decorators/public.decorator';
 import { LoginRequestDto } from './dto/login-request.dto';
 import { LoginResponseDTO } from './dto/login-response.dto';
 

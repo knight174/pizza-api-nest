@@ -1,17 +1,17 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { OrdersService } from './orders.service';
+import { ApiTags } from '@nestjs/swagger';
+import { User } from 'src/common/decorators/user.decorator';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
-import { User } from 'src/decorators/user.decorator';
-import { ApiTags } from '@nestjs/swagger';
+import { OrdersService } from './orders.service';
 
 @Controller('orders')
 @ApiTags('orders')

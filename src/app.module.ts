@@ -13,7 +13,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthController } from './auth/auth.controller';
 import { AuthModule } from './auth/auth.module';
-import { JwtGuard } from './auth/guards/jwt.guard';
+import { JwtGuard } from './common/guards/jwt.guard';
 import { JwtStrategy } from './auth/strategy/jwt.strategy';
 
 const guard = {
