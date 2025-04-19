@@ -20,25 +20,32 @@ DATABASE_URL="postgresql://用户名:密码@localhost:5432/数据库名?schema=p
 ## 初始化数据库
 
 ```bash
-pnpm prisma migrate deploy # 用于生产环境
+npx prisma migrate deploy # 用于生产环境
 # 或
-pnpm prisma migrate dev # 用于开发环境
+# npx prisma migrate dev --name init # 首次迁移
+npx prisma migrate dev # 用于开发环境
 ```
 
 ## 生成 Prisma 客户端
 
 ```bash
-pnpm prisma generate
+npx prisma generate
 ```
 
 ## 运行 Prisma Studio
 
 ```bash
-pnpm prisma studio
+npx prisma studio
+```
+
+如果没有数据，可以在 `prisma/seed.ts` 中添加数据，然后运行：
+
+```bash
+npx ts-node prisma/seed.ts
 ```
 
 ## 启动 NestJS 服务
 
 ```bash
-pnpm run start:dev
+bun run start:dev
 ```
