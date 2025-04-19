@@ -1,17 +1,18 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UsersService } from './users.service';
 
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Public } from 'src/decorators/public.decorator';
 import { UserEntity } from './entities/user.entity';
 
 @Controller('users')
@@ -19,6 +20,8 @@ import { UserEntity } from './entities/user.entity';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  // 注册新用户
+  @Public()
   @Post()
   @ApiCreatedResponse({ type: UserEntity })
   create(@Body() createUserDto: CreateUserDto) {

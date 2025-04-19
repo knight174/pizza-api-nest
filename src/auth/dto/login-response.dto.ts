@@ -1,5 +1,5 @@
 export class LoginResponseDTO {
-  access_token: string;
+  token: string; // 用 access token 更好
   // tokenType: string;
   // expiresIn: number;
 }

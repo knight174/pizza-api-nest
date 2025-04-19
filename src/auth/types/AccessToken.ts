@@ -1,3 +1,3 @@
 export interface AccessToken {
-  access_token: string;
+  token: string; // 用 access token 更好
 }

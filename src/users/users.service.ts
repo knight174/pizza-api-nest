@@ -1,16 +1,32 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  // 注册
-  create(createUserDto: CreateUserDto) {
-    return this.prisma.user.create({
-      data: createUserDto,
+  // 注册新用户
+  async create(createUserDto: CreateUserDto) {
+    // 防御已存在用户
+    const existingUser = await this.findOneByEmail(createUserDto.email);
+    if (existingUser) {
+      throw new BadRequestException('该邮箱已被注册');
+    }
+
+    // hash 加密
+    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+
+    // 创建用户
+    const newUser = new UserEntity();
+    newUser.email = createUserDto.email;
+    newUser.password = hashedPassword;
+
+    return await this.prisma.user.create({
+      data: newUser,
     });
   }
 

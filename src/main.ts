@@ -2,6 +2,8 @@ import { VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './interceptors/http-exception.filter';
+import { TransformInterceptor } from './interceptors/transform.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,19 +16,25 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
+  // 启用版本控制
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: '1',
     prefix: 'api/v',
   });
 
+  // Swagger 配置
   const config = new DocumentBuilder()
     .setTitle('Pizza API')
     .setDescription('The Pizza API description')
     .setVersion('0.1')
     .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  const document = SwaggerModule.createDocument(app, config); // 创建 Swagger 文档
+  SwaggerModule.setup('api', app, document); // Swagger UI 地址为 http://localhost:3000/api
+
+  // 全局拦截器和过滤器
+  app.useGlobalInterceptors(new TransformInterceptor());
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   await app.listen(3000);
 }
