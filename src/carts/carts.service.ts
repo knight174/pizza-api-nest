@@ -8,12 +8,12 @@ export class CartsService {
   constructor(private prisma: PrismaService) {}
 
   // 创建/添加购物车
-  async create(userId: string, createCartDto: CreateCartDto) {
+  async create(user_id: string, createCartDto: CreateCartDto) {
     const existingCart = await this.prisma.cart.findFirst({
       where: {
-        userId,
-        pizzaId: createCartDto.pizza_id,
-        deletedAt: null,
+        user_id,
+        pizza_id: createCartDto.pizza_id,
+        deleted_at: null,
       },
     });
 
@@ -30,10 +30,10 @@ export class CartsService {
       // 创建新购物车项
       return this.prisma.cart.create({
         data: {
-          pizzaId: createCartDto.pizza_id,
+          pizza_id: createCartDto.pizza_id,
           quantity: createCartDto.quantity,
           selected: createCartDto.selected ?? true,
-          userId: userId,
+          user_id: user_id,
         },
         include: {
           pizza: true, // 包含关联的 pizza 数据
@@ -43,17 +43,17 @@ export class CartsService {
   }
 
   // 获取用户购物车
-  findAllByUserId(userId: string) {
+  findAllByUserId(user_id: string) {
     return this.prisma.cart.findMany({
       where: {
-        userId,
-        deletedAt: null,
+        user_id,
+        deleted_at: null,
       },
       include: {
         pizza: true, // 获取关联的pizza信息
       },
       orderBy: {
-        createdAt: 'asc',
+        created_at: 'asc',
       },
     });
   }
@@ -65,7 +65,7 @@ export class CartsService {
   // 更新购物车
   async update(id: string, updateCartDto: UpdateCartDto) {
     const cart = await this.prisma.cart.findUnique({
-      where: { id, deletedAt: null },
+      where: { id, deleted_at: null },
     });
     if (!cart) throw new NotFoundException('Cart not found');
 
@@ -83,7 +83,7 @@ export class CartsService {
         id: {
           in: ids,
         },
-        deletedAt: null,
+        deleted_at: null,
       },
     });
 
@@ -94,7 +94,7 @@ export class CartsService {
           id: {
             in: ids,
           },
-          deletedAt: null, // 确保未删除的项
+          deleted_at: null, // 确保未删除的项
         },
         data: {
           selected: selected,

@@ -1,9 +1,9 @@
 import { Decimal } from '@prisma/client/runtime/library';
 
 export class OrderItem {
-  pizzaId: string;
-  pizzaName: string;
-  unitPrice: Decimal;
+  pizza_id: string;
+  pizza_name: string;
+  unit_price: Decimal;
   quantity: number;
-  totalPrice: Decimal;
+  total_price: Decimal;
 }

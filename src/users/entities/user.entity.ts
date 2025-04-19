@@ -1,5 +1,5 @@
-import { User } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
+import { User } from '@prisma/client';
 
 export class UserEntity implements User {
   @ApiProperty({
@@ -42,10 +42,10 @@ export class UserEntity implements User {
   @ApiProperty({
     description: 'Timestamp of user creation',
   })
-  createdAt: Date;
+  created_at: Date;
 
   @ApiProperty({
     description: 'Timestamp of the last update',
   })
-  updatedAt: Date;
+  updated_at: Date;
 }

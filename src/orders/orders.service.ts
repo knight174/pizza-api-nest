@@ -3,11 +3,11 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { Decimal } from '@prisma/client/runtime/library';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { v4 as uuidv4 } from 'uuid';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { Decimal } from '@prisma/client/runtime/library';
-import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class OrdersService {
@@ -19,9 +19,9 @@ export class OrdersService {
     return `T${timestamp}-${uuidv4().replace(/-/g, '')}`;
   }
 
-  async create(userId: string, createOrderDto: CreateOrderDto) {
+  async create(user_id: string, createOrderDto: CreateOrderDto) {
     const carts = await this.prisma.cart.findMany({
-      where: { userId, selected: true, deletedAt: null },
+      where: { user_id, selected: true, deleted_at: null },
       include: {
         pizza: true,
       },
@@ -32,7 +32,7 @@ export class OrdersService {
     }
 
     // 计算总价
-    const totalPrice = carts.reduce((sum, item) => {
+    const total_price = carts.reduce((sum, item) => {
       const pizzaPrice = (item.pizza.price as Decimal).toNumber(); // 转换为 number 类型
       const discount = (item.pizza.discount as Decimal).toNumber(); // 转换为 number 类型
       const itemTotalPrice = pizzaPrice * (1 - discount) * item.quantity;
@@ -41,8 +41,8 @@ export class OrdersService {
 
     try {
       const orderData = {
-        userId,
-        orderNo: this.generateOrderNo(),
+        user_id,
+        order_no: this.generateOrderNo(),
         name: createOrderDto.name,
         phone: createOrderDto.phone,
         address: createOrderDto.address,
@@ -51,16 +51,16 @@ export class OrdersService {
       const order = await this.prisma.order.create({
         data: {
           ...orderData,
-          totalPrice: new Decimal(totalPrice),
-          orderItems: {
+          total_price: new Decimal(total_price),
+          order_items: {
             create: carts.map((item) => ({
-              pizzaId: item.pizzaId,
-              pizzaName: item.pizza.name,
-              unitPrice:
+              pizza_id: item.pizza_id,
+              pizza_name: item.pizza.name,
+              unit_price:
                 (item.pizza.price as Decimal).toNumber() *
                 (1 - (item.pizza.discount as Decimal).toNumber()),
               quantity: item.quantity,
-              totalPrice:
+              total_price:
                 (item.pizza.price as Decimal).toNumber() *
                 (1 - (item.pizza.discount as Decimal).toNumber()) *
                 item.quantity,
@@ -80,22 +80,29 @@ export class OrdersService {
     }
   }
 
-  findAll(userId: string) {
+  findAll(user_id: string) {
     return this.prisma.order.findMany({
-      where: { userId },
+      where: { user_id },
     });
   }
 
   async findOne(id: string) {
-    console.log('id', id);
-    const order = await this.prisma.order.findUnique({
-      where: { id },
-      include: { orderItems: true },
-    });
-    if (!order) {
-      throw new NotFoundException('订单不存在');
+    try {
+      const order = await this.prisma.order.findUnique({
+        where: { order_no: id },
+        include: { order_items: true },
+      });
+
+      if (!order) {
+        throw new NotFoundException('订单不存在');
+      }
+      return order;
+    } catch (error) {
+      if (error.code === 'P2023') {
+        throw new NotFoundException('无效的订单ID格式');
+      }
+      throw error;
     }
-    return order;
   }
 
   async update(id: string, updateOrderDto: UpdateOrderDto) {
@@ -103,8 +110,8 @@ export class OrdersService {
       where: { id },
       data: {
         status: updateOrderDto.status,
-        paymentType: updateOrderDto.type,
-        paymentTime: new Date(),
+        payment_type: updateOrderDto.type,
+        payment_time: new Date(),
       },
     });
     return order;

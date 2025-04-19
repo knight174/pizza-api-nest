@@ -1,5 +1,5 @@
-import { Pizza } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
+import { Pizza } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
 
 export class PizzaEntity implements Pizza {
@@ -49,17 +49,17 @@ export class PizzaEntity implements Pizza {
     description: 'Deletion timestamp if the pizza has been soft deleted',
     required: false,
   })
-  deletedAt: Date | null;
+  deleted_at: Date | null;
 
   @ApiProperty({
     description: 'Timestamp of pizza creation',
   })
-  createdAt: Date;
+  created_at: Date;
 
   @ApiProperty({
     description: 'Timestamp of the last update',
   })
-  updatedAt: Date;
+  updated_at: Date;
 
   @ApiProperty({
     description: 'URL of the pizza image',

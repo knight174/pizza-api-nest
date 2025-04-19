@@ -8,90 +8,90 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid()) @db.Uuid
-  email     String   @unique
-  password  String
-  name      String   @default("即刻披萨Bot")
-  address   String   @default("东胜神洲/傲来国/花果山福地/水帘洞")
-  phone     String   @default("7758258")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  orders    Order[]
-  Cart      Cart[]
+  id         String    @id @default(uuid()) @db.Uuid
+  email      String    @unique
+  password   String
+  name       String    @default("即刻披萨Bot")
+  address    String    @default("东胜神洲/傲来国/花果山福地/水帘洞")
+  phone      String    @default("7758258")
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  orders     Order[]
+  carts      Cart[]
 
   @@map("users")
 }
 
 model Pizza {
-  id         String      @id @default(uuid()) @db.Uuid
-  name       String
-  price      Decimal     @db.Decimal(precision: 10, scale: 2)
-  discount   Decimal     @db.Decimal(precision: 10, scale: 2)
-  sales      Int
-  size       Int
-  tag        String
-  deletedAt  DateTime?
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  src        String      @default("https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?q=80&w=2976&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
-  orderItems OrderItem[]
-  Cart       Cart[]
+  id          String      @id @default(uuid()) @db.Uuid
+  name        String
+  price       Decimal     @db.Decimal(precision: 10, scale: 2)
+  discount    Decimal     @db.Decimal(precision: 10, scale: 2)
+  sales       Int
+  size        Int
+  tag         String
+  deleted_at  DateTime?
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
+  src         String      @default("https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?q=80&w=2976&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+  order_items OrderItem[]
+  carts       Cart[]
 
   @@map("pizzas")
 }
 
 model Cart {
-  id        String    @id @default(uuid()) @db.Uuid
-  userId    String   @db.Uuid
-  pizzaId   String   @db.Uuid
-  quantity  Int
-  selected  Boolean   @default(false)
-  deletedAt DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id         String    @id @default(uuid()) @db.Uuid
+  user_id    String    @db.Uuid
+  pizza_id   String    @db.Uuid
+  quantity   Int
+  selected   Boolean   @default(false)
+  deleted_at DateTime?
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
 
-  user  User?  @relation(fields: [userId], references: [id])
-  pizza Pizza? @relation(fields: [pizzaId], references: [id])
+  user  User  @relation(fields: [user_id], references: [id])
+  pizza Pizza @relation(fields: [pizza_id], references: [id])
 
-  @@unique([pizzaId, userId])
+  @@unique([pizza_id, user_id])
   @@map("carts")
 }
 
 model Order {
-  id           String      @id @default(uuid()) @db.Uuid
-  userId       String      @db.Uuid
-  orderNo      String
-  status       String      @default("pending")
-  totalPrice   Decimal     @db.Decimal(precision: 10, scale: 2)
-  paymentTime  DateTime?
-  deliveryTime DateTime?
-  endTime      DateTime?
-  name         String
-  phone        String
-  address      String
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  paymentType  String?
-  orderItems   OrderItem[]
+  id            String      @id @default(uuid()) @db.Uuid
+  user_id       String      @db.Uuid
+  order_no      String      @unique
+  status        String      @default("pending")
+  total_price   Decimal     @db.Decimal(precision: 10, scale: 2)
+  payment_time  DateTime?
+  delivery_time DateTime?
+  end_time      DateTime?
+  name          String
+  phone         String
+  address       String
+  created_at    DateTime    @default(now())
+  updated_at    DateTime    @updatedAt
+  payment_type  String?
+  order_items   OrderItem[] @relation("OrderToOrderItem")
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [user_id], references: [id])
 
   @@map("orders")
 }
 
 model OrderItem {
-  id         String   @id @default(uuid()) @db.Uuid
-  orderId    String   @db.Uuid
-  pizzaId    String   @db.Uuid
-  pizzaName  String
-  unitPrice  Decimal  @db.Decimal(precision: 10, scale: 2)
-  quantity   Int
-  totalPrice Decimal  @db.Decimal(precision: 10, scale: 2)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id          String   @id @default(uuid()) @db.Uuid
+  order_id    String   @db.Uuid
+  pizza_id    String   @db.Uuid
+  pizza_name  String
+  unit_price  Decimal  @db.Decimal(precision: 10, scale: 2)
+  quantity    Int
+  total_price Decimal  @db.Decimal(precision: 10, scale: 2)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
-  order Order @relation(fields: [orderId], references: [id])
-  pizza Pizza @relation(fields: [pizzaId], references: [id])
+  order Order @relation("OrderToOrderItem", fields: [order_id], references: [id])
+  pizza Pizza @relation(fields: [pizza_id], references: [id])
 
   @@map("order_items")
 }

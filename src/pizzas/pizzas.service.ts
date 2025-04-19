@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreatePizzaDto } from './dto/create-pizza.dto';
 import { UpdatePizzaDto } from './dto/update-pizza.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class PizzasService {
@@ -17,20 +17,20 @@ export class PizzasService {
       return this.prisma.pizza.findMany({
         where: {
           tag: kind,
-          deletedAt: null,
+          deleted_at: null,
         },
       });
     } else {
       return this.prisma.pizza.findMany({
         where: {
-          deletedAt: null,
+          deleted_at: null,
         },
       });
     }
   }
 
   findOne(id: string) {
-    return this.prisma.pizza.findUnique({ where: { id, deletedAt: null } });
+    return this.prisma.pizza.findUnique({ where: { id, deleted_at: null } });
   }
 
   update(id: string, updatePizzaDto: UpdatePizzaDto) {
@@ -46,7 +46,7 @@ export class PizzasService {
     return this.prisma.pizza.update({
       where: { id },
       data: {
-        deletedAt: new Date(),
+        deleted_at: new Date(),
       },
     });
   }

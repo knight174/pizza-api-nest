@@ -19,7 +19,7 @@ export class TransformInterceptor<T>
   implements NestInterceptor<T, Response<T>>
 {
   /**
-   * @description 处理数据，移除 deletedAt 字段
+   * @description 处理数据，移除 deleted_at 字段
    * @param data 需要处理的数据
    * @returns 处理后的数据
    */
@@ -30,11 +30,11 @@ export class TransformInterceptor<T>
 
     if (data && typeof data === 'object') {
       const newObj = { ...data };
-      delete newObj.deletedAt;
+      delete newObj.deleted_at;
 
       // 处理嵌套的 pizza 对象
       if (newObj.pizza) {
-        delete newObj.pizza.deletedAt;
+        delete newObj.pizza.deleted_at;
       }
 
       return newObj;

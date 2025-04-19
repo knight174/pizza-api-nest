@@ -21,8 +21,6 @@ export class CartsController {
 
   @Post()
   create(@User('id') id: string, @Body() createCartDto: CreateCartDto) {
-    console.log('createCartDto', createCartDto);
-    console.log('id', id);
     return this.cartsService.create(id, createCartDto);
   }
 

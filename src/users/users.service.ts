@@ -27,6 +27,16 @@ export class UsersService {
 
     return await this.prisma.user.create({
       data: newUser,
+      // 选择返回的字段
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        address: true,
+        phone: true,
+        created_at: true,
+        updated_at: true,
+      },
     });
   }
 
