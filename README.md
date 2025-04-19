@@ -19,14 +19,14 @@ A RESTful API for pizza ordering and management, built with [NestJS](https://nes
 - [TypeScript](https://www.typescriptlang.org/)
 - [Prisma ORM](https://www.prisma.io/) (see dependencies)
 - [JWT](https://jwt.io/) for authentication
-- [pnpm](https://pnpm.io/) for package management
+- [bun](https://bun.sh/) for package management
 
 ## Getting Started
 
 ### Installation
 
 ```bash
-pnpm install
+bun install
 ```
 
 ### Environment Variables
@@ -37,33 +37,33 @@ Copy `.env.example` to `.env` and update values as needed.
 
 ```bash
 # development
-pnpm run start
+bun run start
 
 # watch mode
-dpnm run start:dev
+bun run start:dev
 
 # production mode
-pnpm run start:prod
+bun run start:prod
 ```
 
 ### Testing
 
 ```bash
 # unit tests
-pnpm run test
+bun run test
 
 # e2e tests
-pnpm run test:e2e
+bun run test:e2e
 
 # test coverage
-pnpm run test:cov
+bun run test:cov
 ```
 
 ### Linting & Formatting
 
 ```bash
-pnpm run lint
-pnpm run format
+bun run lint
+bun run format
 ```
 
 ## Project Structure

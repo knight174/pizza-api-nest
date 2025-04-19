@@ -17,14 +17,14 @@
 - [TypeScript](https://www.typescriptlang.org/)
 - [Prisma ORM](https://www.prisma.io/)（见依赖）
 - [JWT](https://jwt.io/) 认证
-- [pnpm](https://pnpm.io/) 包管理
+- [bun](https://bun.sh/) 包管理
 
 ## 快速开始
 
 ### 安装依赖
 
 ```bash
-pnpm install
+bun install
 ```
 
 ### 环境变量
@@ -35,33 +35,33 @@ pnpm install
 
 ```bash
 # 开发环境
-pnpm run start
+bun run start
 
 # 监听模式
-pnpm run start:dev
+bun run start:dev
 
 # 生产环境
-pnpm run start:prod
+bun run start:prod
 ```
 
 ### 测试
 
 ```bash
 # 单元测试
-pnpm run test
+bun run test
 
 # 端到端测试
-pnpm run test:e2e
+bun run test:e2e
 
 # 测试覆盖率
-pnpm run test:cov
+bun run test:cov
 ```
 
 ### 代码检查与格式化
 
 ```bash
-pnpm run lint
-pnpm run format
+bun run lint
+bun run format
 ```
 
 ## 项目结构
