@@ -12,7 +12,7 @@ export class CartsService {
     const existingCart = await this.prisma.cart.findFirst({
       where: {
         userId,
-        pizzaId: createCartDto.pizzaId,
+        pizzaId: createCartDto.pizza_id,
         deletedAt: null,
       },
     });
@@ -30,7 +30,7 @@ export class CartsService {
       // 创建新购物车项
       return this.prisma.cart.create({
         data: {
-          pizzaId: createCartDto.pizzaId,
+          pizzaId: createCartDto.pizza_id,
           quantity: createCartDto.quantity,
           selected: createCartDto.selected ?? true,
           userId: userId,

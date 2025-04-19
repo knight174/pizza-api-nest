@@ -2,10 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateCartDto {
   @ApiProperty({
-    description: 'pizzaId',
+    description: 'pizza_id',
     example: '123-456-789',
   })
-  pizzaId: string;
+  pizza_id: string;
 
   @ApiProperty({
     description: '数量',

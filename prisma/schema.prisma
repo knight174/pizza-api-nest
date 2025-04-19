@@ -42,8 +42,8 @@ model Pizza {
 
 model Cart {
   id        String    @id @default(uuid()) @db.Uuid
-  userId    String?   @db.Uuid
-  pizzaId   String?   @db.Uuid
+  userId    String   @db.Uuid
+  pizzaId   String   @db.Uuid
   quantity  Int
   selected  Boolean   @default(false)
   deletedAt DateTime?
