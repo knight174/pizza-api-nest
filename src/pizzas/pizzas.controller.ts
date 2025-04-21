@@ -13,7 +13,7 @@ import { UpdatePizzaDto } from './dto/update-pizza.dto';
 import { PizzasService } from './pizzas.service';
 
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { Public } from 'src/common/decorators/public.decorator';
+import { Public } from '../common/decorators/public.decorator';
 import { PizzaEntity } from './entities/pizza.entity';
 
 @Public()
