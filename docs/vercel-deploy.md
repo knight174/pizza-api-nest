@@ -38,6 +38,16 @@
 }
 ```
 
+注意：
+
+- 如果是首次部署，需要保证 supabase 数据库已经创建，并且在 `prisma/schema.prisma` 中配置了数据库连接字符串。而且，数据库应该是空的，如果不是空的，请先重置数据库。
+- 本地执行 seed 脚本，确保数据库中有数据。
+
+  ```bash
+  # 运行 seed 脚本
+  bunx cross-env NODE_ENV=production dotenv -e .env.production -- prisma db seed
+  ```
+
 ## 3. 在 Vercel 控制台设置
 
 1. 环境变量
@@ -79,11 +89,13 @@ vercel --prod
 ## 注意事项
 
 1. 不要在 Vercel 上执行 `prisma migrate dev`
+
    - 只在本地开发环境中执行 `prisma migrate dev`
    - Vercel 上执行 `prisma migrate deploy`
    - 生产环境迁移在 CI/CD 中执行
 
 2. Serverless 限制
+
    - 冷启动时间
    - 连接池限制
    - 函数执行时间限制

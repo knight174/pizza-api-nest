@@ -38,15 +38,19 @@ bunx cross-env NODE_ENV=production dotenv -e .env.production -- prisma db push
 # 2. 填充初始数据
 # 测试环境
 bunx cross-env NODE_ENV=test dotenv -e .env.test -- ts-node prisma/seed.ts
+# 或
+bunx cross-env NODE_ENV=test dotenv -e .env.test -- prisma db seed
+
 # 生产环境
 bunx cross-env NODE_ENV=production dotenv -e .env.production -- ts-node prisma/seed.ts
+# 或
+bunx cross-env NODE_ENV=production dotenv -e .env.production -- prisma db seed
 ```
 
 - `bunx` 使用 bunx 执行命令（Bun 的包执行器）
 - `cross-env` 跨平台设置环境变量
 - `dotenv -e .env.production` 加载 `.env.production` 文件
-- `ts-node` 执行 TypeScript 文件
-- `prisma/seed.ts` 是用于初始化数据库的脚本
+- `ts-node prisma/seed.ts` 执行 TypeScript 文件，用于初始化数据库的脚本
 - `prisma db push` 将 Prisma schema 的更改推送到数据库
 - `prisma db seed` 是用于填充数据库的命令
 
@@ -58,3 +62,7 @@ bun run start:test
 # 生产环境
 bun run start:prod
 ```
+
+## 4. 部署到 vercel
+
+参见 [vercel-deploy.md](./vercel-deploy.md)。

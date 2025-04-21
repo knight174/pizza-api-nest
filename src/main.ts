@@ -28,9 +28,10 @@ async function bootstrap() {
     .setTitle('Pizza API')
     .setDescription('The Pizza API description')
     .setVersion('0.1')
+    .addServer('/') // 添加服务器地址
     .build();
   const document = SwaggerModule.createDocument(app, config); // 创建 Swagger 文档
-  SwaggerModule.setup('api', app, document); // Swagger UI 地址为 http://localhost:3000/api
+  SwaggerModule.setup('api-docs', app, document); // Swagger UI 地址为 http://localhost:3000/api
 
   // 全局拦截器和过滤器
   app.useGlobalInterceptors(new TransformInterceptor());
