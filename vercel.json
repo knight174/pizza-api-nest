@@ -1,12 +1,6 @@
 {
   "version": 2,
   "regions": ["hkg1"],
-  "builds": [
-    {
-      "src": "src/main.ts",
-      "use": "@vercel/node"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
