@@ -33,7 +33,7 @@
 ```json
 {
   "scripts": {
-    "vercel-build": "prisma generate && prisma migrate deploy && nest build"
+    "build:vercel": "prisma generate && prisma migrate deploy && nest build"
   }
 }
 ```
