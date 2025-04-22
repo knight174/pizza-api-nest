@@ -25,8 +25,8 @@ async function bootstrap() {
     prefix: 'api/v',
   });
 
-  // Swagger 配置
-  if (process.env.ENABLE_SWAGGER === 'true') {
+  if (process.env.NODE_ENV === 'development') {
+    // Swagger 配置
     const config = new DocumentBuilder()
       .setTitle('Pizza API')
       .setDescription('The Pizza API description')
