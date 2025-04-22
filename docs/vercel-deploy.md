@@ -1,5 +1,7 @@
 # Vercel 部署指南
 
+部署到 Vercel：https://prisma.org.cn/docs/orm/prisma-client/deployment/serverless/deploy-to-vercel
+
 ## 1. 添加 Vercel 配置文件
 
 在项目根目录下创建 `vercel.json` 文件，内容如下：
