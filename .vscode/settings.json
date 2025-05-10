@@ -8,6 +8,15 @@
       "name": "pizza-api",
       "database": "pizza_dev",
       "username": "root"
+    },
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "pizza 数据库 nest 用",
+      "database": "pizza_api_db",
+      "username": "knight174"
     }
   ]
 }
