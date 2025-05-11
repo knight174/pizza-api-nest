@@ -22,7 +22,7 @@ export class AuthController {
 
   // 登录
   @Public() // 公开路由，不需要身份验证
-  @UseGuards(AuthGuard('local')) // 身份验证守卫
+  @UseGuards(AuthGuard('local')) // 身份验证守卫，本地策略
   @Post('login')
   async login(
     @Body() loginDto: LoginRequestDto,
@@ -42,7 +42,7 @@ export class AuthController {
 
   // 获取用户信息
   @Get('me')
-  @UseGuards(AuthGuard('jwt')) // 身份验证守卫
+  @UseGuards(AuthGuard('jwt')) // 身份验证守卫，JWT 策略
   async getMe(@Request() req) {
     return await this.authService.getUserInfo(req.user);
   }

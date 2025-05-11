@@ -1,10 +1,9 @@
 import * as dotenv from 'dotenv';
-import { type NodePgDatabase, drizzle } from 'drizzle-orm/node-postgres';
-import { migrate } from 'drizzle-orm/node-postgres/migrator';
+import { type PostgresJsDatabase, drizzle } from 'drizzle-orm/postgres-js'; // Changed
+import { migrate } from 'drizzle-orm/postgres-js/migrator'; // Changed
 import path from 'path';
-import pg from 'pg';
+import postgres from 'postgres'; // Changed
 import { exit } from 'process';
-
 import * as allSchema from './schema';
 
 dotenv.config();
@@ -14,43 +13,20 @@ dotenv.config();
     throw new Error('DATABASE_URL is not set in .env file');
   }
 
-  // Create a new pool instance
-  const pool = new pg.Pool({
-    connectionString: process.env.DATABASE_URL,
-  });
-  let db: NodePgDatabase<typeof allSchema> | null = null;
-  db = drizzle(pool, {
-    schema: {
-      ...allSchema,
-    },
+  const migrationClient = postgres(process.env.DATABASE_URL, { max: 1 }); // Use postgres-js client for migrations
+  const db: PostgresJsDatabase<typeof allSchema> = drizzle(migrationClient, {
+    schema: allSchema,
   });
 
-  console.log('⏳ Running migrations...');
-
+  console.log('⏳ Running migrations (using postgres-js)...');
   const start = Date.now();
+  const migrationPath = path.join(process.cwd(), 'drizzle'); // 通常指向 drizzle.config.ts 的 out 目录
 
-  // Look for migrations in the src/drizzle/migrations folder
-  const migrationPath = path.join(process.cwd(), 'drizzle/migrations');
-
-  // Run the migrations
-  // 指向 drizzle.config.ts 中 out 目录
-  await migrate(db, { migrationsFolder: migrationPath });
+  await migrate(db, { migrationsFolder: migrationPath }); // migrationsFolder is relative to CWD or an absolute path
+  // Check your drizzle.config.ts 'out' option
 
   const end = Date.now();
-
-  // Insert default roles
-  // for (const role of ['Super Admin', 'Admin', 'User', 'Guest']) {
-  //   const existingUserRole = await db
-  //     ?.select({
-  //       name: allSchema.user_role.name,
-  //     })
-  //     .from(allSchema.user_role)
-  //     .where(eq(allSchema.user_role.name, role));
-  //   if (!existingUserRole[0]) {
-  //     await db?.insert(allSchema.user_role).values({ name: role });
-  //   }
-  // }
-
   console.log('✅ Migrations completed in', end - start, 'ms');
+  await migrationClient.end(); // Important to close the connection for postgres-js if script exits
   exit(0);
 })();

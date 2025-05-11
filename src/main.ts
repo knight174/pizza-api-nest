@@ -1,4 +1,4 @@
-import { VersioningType } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
@@ -36,6 +36,18 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, config); // 创建 Swagger 文档
     SwaggerModule.setup('api-docs', app, document); // Swagger UI 地址为 http://localhost:3000/api-docs
   }
+
+  // 全局管道
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // 自动剥离 DTO 中未定义的属性
+      forbidNonWhitelisted: true, // 如果传入了 DTO 中未定义的属性，则抛出错误
+      transform: true, // 自动转换负载类型 (例如 string to number, if applicable and enabled)
+      // transformOptions: {
+      //   enableImplicitConversion: true, // 对于 price/discount 从 string 到 string 不需要这个
+      // },
+    }),
+  );
 
   // 全局拦截器和过滤器
   app.useGlobalInterceptors(new TransformInterceptor());
