@@ -155,13 +155,14 @@ export const cartsRelations = relations(carts, ({ one }) => ({
 
 export const ordersRelations = relations(orders, ({ one, many }) => ({
   user: one(users, { fields: [orders.user_id], references: [users.id] }),
-  items: many(order_items),
+  orderItems: many(order_items, { relationName: 'OrderToOrderItems' }),
 }));
 
 export const orderItemsRelations = relations(order_items, ({ one }) => ({
   order: one(orders, {
     fields: [order_items.order_id],
     references: [orders.id],
+    relationName: 'OrderToOrderItems',
   }),
   pizza: one(pizzas, {
     fields: [order_items.pizza_id],
