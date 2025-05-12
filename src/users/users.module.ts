@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
+import { DrizzleModule } from 'src/drizzle/drizzle.module';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
 @Module({
-  // imports: [DrizzleModule], // 如果 DrizzleModule 不是全局的，则需要在这里导入
+  imports: [DrizzleModule],
   controllers: [UsersController],
   providers: [UsersService],
   exports: [UsersService],
